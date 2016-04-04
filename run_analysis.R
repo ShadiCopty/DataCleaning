@@ -30,18 +30,18 @@ output <- cbind (outputX, Activity, subjects)
 outBySubj <- split(output, output$Subject)
 allSubjects <- unique(subjects)
 finalAnswer <- data.frame()
-for (s in allSubjects[[1]]){
+for (s in allSubjects[[1]]){ #for each subject perform the following
   print (s)
   outbyActivity <- split(outBySubj[[s]], outBySubj[[s]]$Activity)
-  for (a in unique(Activity))
+  for (a in unique(Activity)) # for each activity
   {
     vec <- select(outbyActivity[[a]], -Activity, -Subject)
     answer <- lapply(vec,mean)
     answer$Activity <- a
     answer$Subject <- s
-    aDF <- as.data.frame(answer)
-    finalAnswer <- rbind(aDF,finalAnswer)
+    aDF <- as.data.frame(answer) # the means for this activity and subject
+    finalAnswer <- rbind(aDF,finalAnswer) #save the answer
   }
 }
-finalAnswer <- arrange(finalAnswer, Subject, Activity)
-write.table(finalAnswer, file = "file.txt", row.name=FALSE)
+finalAnswer <- arrange(finalAnswer, Subject, Activity) #sort by subject and activity
+write.table(finalAnswer, file = "file.txt", row.name=FALSE) #store the file
